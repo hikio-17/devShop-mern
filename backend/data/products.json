@@ -1,0 +1,138 @@
+[
+  {
+    "name": "product 1",
+    "price": 20000,
+    "description": "product 1",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Food",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 2",
+    "price": 20000,
+    "description": "product 2",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Food",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 1",
+    "price": 20000,
+    "description": "product 1",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Food",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 4",
+    "price": 20000,
+    "description": "product 4",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Food",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 5",
+    "price": 20000,
+    "description": "product 5",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Food",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 6",
+    "price": 20000,
+    "description": "product 6",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Sports",
+    "seller": "Bukalapak",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 7",
+    "price": 20000,
+    "description": "product 7",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Beauty/health",
+    "seller": "Shoppe",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  },
+  {
+    "name": "product 8",
+    "price": 20000,
+    "description": "product 1",
+    "rating": 3,
+    "images": [
+      {
+        "public_id": "bier4r8qnemu171srnkh",
+        "url": "https://res.cloudinary.com/hikio-17/image/upload/v1665713641/bier4r8qnemu171srnkh.jpg"
+      }
+    ],
+    "category": "Electronics",
+    "seller": "Toped",
+    "stock": 20,
+    "numOfReviews": 34,
+    "reviews": []
+  }
+]
