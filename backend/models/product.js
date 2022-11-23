@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  image: [
+  images: [
     {
       public_id: {
         type: String,
@@ -53,11 +53,11 @@ const productSchema = new mongoose.Schema({
     },
   },
   seller: {
-    type: Number,
+    type: String,
     required: [true, "Please enter product seller"],
   },
   stock: {
-    type: String,
+    type: Number,
     required: [true, "Please enter product stock"],
     default: 0,
   },
