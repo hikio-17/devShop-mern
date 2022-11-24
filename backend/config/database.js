@@ -4,6 +4,7 @@ const connectDatabase = () => {
   mongoose
     .connect(process.env.DB_LOCAL_URI, {
       useUnifiedTopology: true,
+      useNewUrlParser: true,
     })
     .then((conn) => {
       console.log(
