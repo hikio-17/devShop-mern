@@ -5,7 +5,9 @@ const APIFeatures = require("../utils/apiFeatures");
 
 // create product ==> /api/v1/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.create(req.body);
+  req.body.user = req.user.id;
+
+  const product = await await Product.create(req.body);
 
   res.status(201).json({
     success: true,
