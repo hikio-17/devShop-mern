@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: [30, "Nama tidak boleh melebihi 30 karakter"],
+    maxlength: [30, "Nama tidak boleh melebihi 30 karakter"],
   },
   email: {
     type: String,
@@ -16,7 +17,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: [6, "Password harus melebihi 6 karakter"],
+    minlength: [6, "Password harus melebihi 6 karakter"],
     select: false,
   },
   avatar: {
@@ -39,6 +40,15 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: String,
   resetPasswordExp: Date,
+});
+
+// Encrypting password before saving user
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 module.exports = mongoose.model("User", userSchema);
