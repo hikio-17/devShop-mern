@@ -22,3 +22,36 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     token,
   });
 });
+
+// user login ==> /api/v1/login
+exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(new ErrorHandler("Silahkan masukkan Email dan Password", 400));
+  }
+
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    return next(
+      new ErrorHandler("Email dan password yang anda gunakan invalid", 401)
+    );
+  }
+
+  // Checks password correct or not
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    return next(
+      new ErrorHandler("Email dan password yang anda gunakan invalid", 401)
+    );
+  }
+
+  const token = user.getJwtToken();
+
+  res.status(200).json({
+    status: true,
+    token,
+  });
+});
