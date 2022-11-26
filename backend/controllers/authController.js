@@ -156,18 +156,12 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
 // Update profile user ===> /api/v1/me/update
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-  if (!req.body.name) {
-    return next(new ErrorHandler("Please enter your update name"));
-  }
-  if (!req.body.email) {
-    return next(new ErrorHandler("Please enter your update email"));
-  }
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
   };
 
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -178,6 +172,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// User Log out ==> /api/v1/logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
@@ -187,5 +182,68 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Logged Out",
+  });
+});
+
+// Admin Route
+// Get all Users ==> /api/v1/admin/users
+exports.allUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
+// Get user detail ===? /api/v1/admin/user/:id
+exports.getUserDetail = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`Users does not found with id: ${req.params.id}`, 400)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+// Update User ==> /api/v1/user/:id
+exports.updateUser = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Remove user ==> /api/v1/admin/user/:id
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User does not found with id: ${req.params.id}`, 400)
+    );
+  }
+
+  await user.remove();
+
+  res.status(200).json({
+    success: true,
   });
 });
