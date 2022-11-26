@@ -154,6 +154,30 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
+// Update profile user ===> /api/v1/me/update
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+  if (!req.body.name) {
+    return next(new ErrorHandler("Please enter your update name"));
+  }
+  if (!req.body.email) {
+    return next(new ErrorHandler("Please enter your update email"));
+  }
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),

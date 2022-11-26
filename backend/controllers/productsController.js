@@ -53,6 +53,8 @@ exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+    runValidators: true,
+    useFindAndModify: false,
   });
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
