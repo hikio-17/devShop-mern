@@ -2,8 +2,9 @@ const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/cathAsyncErrors");
 const sendToken = require("../utils/jwtToken");
-const { now } = require("mongoose");
 const sendEmail = require("../utils/sendEmail");
+
+const crypto = require("crypto");
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -64,11 +65,13 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return next(new ErrorHandler("User not found with this emal", 404));
+    return next(new ErrorHandler("User not found with this email", 404));
   }
 
   // Generate token
   const resetToken = user.getResetPasswordToken();
+
+  console.log(resetToken);
 
   await user.save({ validateBeforeSave: false });
 
@@ -99,4 +102,40 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
     return next(new ErrorHandler(error.message, 500));
   }
+});
+
+// Reset Password ===> /api/v1/password/reset/:token
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+  // hash url reset token
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(
+      new ErrorHandler(
+        "Reset password token is invalid or has been expired",
+        400
+      )
+    );
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new ErrorHandler("Password does not match", 400));
+  }
+
+  // set up new password
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  sendToken(user, 200, res);
 });
