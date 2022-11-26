@@ -48,18 +48,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-exports.logout = catchAsyncErrors(async (req, res, next) => {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "Logged Out",
-  });
-});
-
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -70,8 +58,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   // Generate token
   const resetToken = user.getResetPasswordToken();
-
-  console.log(resetToken);
+  console.log("reset token ===> ", resetToken);
 
   await user.save({ validateBeforeSave: false });
 
@@ -138,4 +125,25 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   sendToken(user, 200, res);
+});
+
+exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  console.log("REQ USER ===>", req.user);
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+exports.logout = catchAsyncErrors(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logged Out",
+  });
 });

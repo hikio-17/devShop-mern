@@ -8,7 +8,7 @@ exports.isAuthenticatedUser = cathAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
 
   if (!token) {
-    return next(new ErrorHandler("Silahkanlogin untuk mengakses resourse"));
+    return next(new ErrorHandler("Silahkan login untuk mengakses resourse"));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);

@@ -24,13 +24,29 @@ module.exports = (err, req, res, next) => {
     // Wrong Mongoose Validation Error
     if (err.name === "ValidationError") {
       const message = Object.values(err.errors).map((value) => value.message);
+      error = new ErrorHandler(message, 400);
+    }
 
+    // Handling Mongoose duplicate key errors
+    if (err.code === 11000) {
+      const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
+      error = new ErrorHandler(message, 400);
+    }
+
+    // Handling JWT Token errors
+    if (err.name === "JsonWebTokenError") {
+      const message = "JSON Web Token is invalid. try again!!!";
+      error = new ErrorHandler(message, 400);
+    }
+
+    if (err.name === "TokenExpiredError") {
+      const message = "JSON Web Token is Expired. try again!!!";
       error = new ErrorHandler(message, 400);
     }
 
     res.status(err.statusCode).json({
       success: false,
-      message: err.message || "Internal server error",
+      message: error.message || "Internal server error",
     });
   }
 };
