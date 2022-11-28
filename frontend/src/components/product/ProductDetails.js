@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -6,27 +6,28 @@ import { Carousel } from "react-bootstrap";
 import Loader from "./../layout/Loader";
 import { clearErrors } from "./../../redux/actions/productActions";
 import { getProductDetails } from "../../redux/actions/productActions";
+import MetaData from "../layout/MetaData";
 
-const ProductDetails = () => {
+const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { loading, product, error } = useSelector(
     (state) => state.productDetails
   );
 
-  const { id } = useParams();
-
   useEffect(() => {
-    dispatch(getProductDetails(id));
+    dispatch(getProductDetails(match.params.id));
 
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, []);
+  }, [alert, dispatch, error, match.params.id]);
 
   return (
     <Fragment>
+      <MetaData title={`${product.name}`} />
+
       {loading ? (
         <Loader />
       ) : (

@@ -9,25 +9,30 @@ import {
 } from "./../constants/productConstants";
 import axios from "axios";
 
-export const getProducts = () => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_PRODUCTS_REQUEST });
+export const getProducts =
+  (keyword = "", currentPage = 1) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-    const { data } = await axios.get("http://localhost:5000/api/v1/products", {
-      withCredentials: true,
-    });
+      const { data } = await axios.get(
+        `http://localhost:5000/api/v1/products?keyword=${keyword}&page=${currentPage}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-    dispatch({
-      type: ALL_PRODUCTS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_PRODUCTS_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: ALL_PRODUCTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCTS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 export const getProductDetails = (id) => async (dispatch) => {
   try {
