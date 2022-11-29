@@ -12,7 +12,20 @@ import Loader from "./layout/Loader";
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
-
+const categories = [
+  "Electronics",
+  "Cameras",
+  "Laptop",
+  "Accessories",
+  "Headphones",
+  "Food",
+  "Books",
+  "Clothes/shoes",
+  "Beauty/health",
+  "Sports",
+  "Outdoor",
+  "Home",
+];
 const Home = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -20,6 +33,7 @@ const Home = () => {
   // filter
   const { keyword } = useParams();
   const [price, setPrice] = useState([1, 99999999]);
+  const [category, setCategory] = useState("");
 
   const { loading, error, products, productsCount, resPerPage } = useSelector(
     (state) => state.products
@@ -30,8 +44,8 @@ const Home = () => {
       return alert.error(error);
     }
 
-    dispatch(getProducts(keyword, currentPage, price));
-  }, [dispatch, alert, error, currentPage, keyword, price]);
+    dispatch(getProducts(keyword, currentPage, price, category));
+  }, [dispatch, alert, error, currentPage, keyword, price, category]);
 
   const setCurrentPageNo = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -66,6 +80,26 @@ const Home = () => {
                         }}
                         onChange={(price) => setPrice(price)}
                       />
+
+                      <hr className="my-5" />
+
+                      <div className="mt-5">
+                        <h4 className="mb-3">Categories</h4>
+
+                        <ul className="pl-0">
+                          {categories.map((category) => (
+                            <li
+                              style={{
+                                cursor: "pointer",
+                                listStyleType: "none",
+                              }}
+                              onClick={() => setCategory(category)}
+                            >
+                              {category}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
 
